@@ -18,7 +18,8 @@
                 </p>
             @endif
 
-            <form action="" class="">
+            {{-- <form action="" class=""> --}}
+
                 <ul class="grid grid-cols-9 gap-4 text-white w-full max-w-7xl sm:grid-cols-9">
                     <!-- ヘッダー -->
                     <li class="font-bold text-center col-span-1 hidden sm:block">番号</li>
@@ -39,14 +40,25 @@
                         <li class="col-span-9 sm:col-span-2 flex justify-center gap-4">
                             {{-- 編集ページに遷移 --}}
                             <button
-                            onclick="location.href='{{ route('admin.quizzes.edit', ['level' => $level->key])}}'"
-                            class="bg-white text-blue-900 px-2 py-1 rounded">編集</button>
-                            <button class="bg-white text-red-500 px-2 py-1 rounded">削除</button>
+                            type="button"
+                            onclick="location.href='{{ route('admin.quizzes.edit', [
+                            'level' => $level->key,
+                            'quiz' => $quiz->id
+                            ]
+                            )}}'"
+                            class="bg-white text-blue-900 px-2 py-1 rounded">
+                            編集
+                            </button>
+                            <button
+                            type="button"
+                            class="bg-white text-red-500 px-2 py-1 rounded">
+                            削除
+                            </button>
                         </li>
                     @endforeach
                 </ul>
 
-            </form>
+            {{-- </form> --}}
         </div>
     </section>
 </x-admin-layout>

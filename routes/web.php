@@ -42,7 +42,9 @@ Route::prefix('admin')->name('admin.')->middleware('auth')->group(function () {
         // クイズ表示
         Route::get('show', [QuizController::class, 'show'])->name('show');
         // クイズ編集画面表示
-        Route::get('edit', [QuizController::class, 'edit'])->name('edit');
+        Route::get('{quiz}/edit', [QuizController::class, 'edit'])->name('edit');
+        // クイズ更新
+        Route::put('{quiz}/update', [QuizController::class, 'update'])->name('update');
     });
 });
 

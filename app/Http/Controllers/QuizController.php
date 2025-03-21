@@ -25,7 +25,7 @@ class QuizController extends Controller
         // 該当するクイズを全て取得
         $quizzes = Quiz::where('level_id', $level->id)->get();
         // もしクイズの数が10より少なければ
-        if(count($quizzes) <= self::MAX_QUIZ_COUNT) {
+        if (count($quizzes) <= self::MAX_QUIZ_COUNT) {
             // 該当のレベルを取得
             $level = Level::where('key', $level)->firstOrFail();
             $quiz = new Quiz();
@@ -35,7 +35,7 @@ class QuizController extends Controller
             $quiz->solution = $request->solution;
             $quiz->save();
 
-            for($i = 1; $i <= 4; $i++) {
+            for ($i = 1; $i <= 4; $i++) {
                 $option = new Option();
                 // クイズと紐付け
                 $option->quiz_id = $quiz->id;
@@ -53,29 +53,52 @@ class QuizController extends Controller
         ]);
     }
 
+    // クイズ表示
     public function show($level)
     {
         // 該当のレベル取得
         $level = Level::where('key', $level)->firstOrFail();
         // 該当の全てのクイズ取得
         $quizzes = Quiz::where('level_id', $level->id)->get();
-         // 登録クイズ数の制限
+        // 登録クイズ数の制限
         $canResister = count($quizzes) < self::MAX_QUIZ_COUNT;
         return view('admin.quizzes.show', compact('level', 'quizzes', 'canResister'));
     }
 
+    // クイズ編集
+    public function edit($level, Quiz $quiz)
+    {
+        // dd($level);
+        // 該当レベル取得
+        $level = Level::where('key', $level)->firstOrFail();
+        // 該当レベルの全てのクイズ
+        $options = Option::where('quiz_id', $quiz->id)->get()->toArray();
 
+        return view('admin.quizzes.edit', compact('level', 'quiz', 'options'));
+    }
 
-
-
-    public function edit($level)
+    // クイズ更新画面表示
+    public function update(Request $request, $level, Quiz $quiz)
     {
         // 該当レベル取得
         $level = Level::where('key', $level)->firstOrFail();
-        // 該当クイズの
+
         $quizzes = Quiz::where('level_id', $level->id)->get();
 
-        return view('admin.quizzes.edit', compact('level', 'quizzes'));
+        $canResister = count($quizzes) < self::MAX_QUIZ_COUNT;
+
+        // クイズモデル
+        $quiz->level_id = $level->id;
+        $quiz->question = $request->question;
+        $quiz->solution = $request->solution;
+        $quiz->save();
+
+        // 選択肢の更新
+        foreach ($quiz->options as $index => $option) {
+            $option->content = $request->content[$index];
+            $option->is_correct = ($request->correct_answer == $index + 1) ? 1 : 0;
+            $option->save();
+        }
+        return view('admin.quizzes.show', compact('level', 'quizzes', 'canResister'));
     }
 }
-
