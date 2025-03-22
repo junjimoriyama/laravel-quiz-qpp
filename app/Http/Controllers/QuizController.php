@@ -101,4 +101,9 @@ class QuizController extends Controller
         }
         return view('admin.quizzes.show', compact('level', 'quizzes', 'canResister'));
     }
+
+    public function destroy($level, Quiz $quiz)
+    {
+        dd($level, $quiz);
+    }
 }

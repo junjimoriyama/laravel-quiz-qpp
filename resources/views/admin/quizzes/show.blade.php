@@ -49,11 +49,11 @@
                             class="bg-white text-blue-900 px-2 py-1 rounded">
                             編集
                             </button>
-                            <button
-                            type="button"
-                            class="bg-white text-red-500 px-2 py-1 rounded">
-                            削除
-                            </button>
+                            <form method="POST" action="{{ route('admin.quizzes.destroy', ['level' => $level->key, 'quiz' => $quiz->id]) }}">
+                                @csrf
+                                @method('DELETE')
+                                <button type="submit" class="bg-white text-red-500 px-2 py-1 rounded">削除</button>
+                            </form>
                         </li>
                     @endforeach
                 </ul>

@@ -45,7 +45,7 @@
                                 value="{{ $option['content'] }}">
 
                             {{-- エラー文をinputの真下中央にabsolute配置 --}}
-                            @error('content.' . ($i - 1))
+                            @error('content.' . ($index))
                                 <div class="absolute left-1/2 translate-x-[-50%] top-[60px] text-base text-red-300">
                                     {{ $message }}
                                 </div>
@@ -58,7 +58,7 @@
                                 value="{{ $index + 1 }}" {{ $option['is_correct'] == 1 ? 'checked' : '' }}>
                             <label class="text-left text-base">正解</label>
                         </div>
-                        @if ($i === 4)
+                        @if ($index + 1 === 4)
                             @error('correct_answer')
                                 <div class="text-base text-red-300">{{ $message }}</div>
                             @enderror
