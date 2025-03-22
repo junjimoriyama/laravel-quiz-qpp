@@ -6,23 +6,20 @@ use Illuminate\Foundation\Http\FormRequest;
 
 class StoreQuizRequest extends FormRequest
 {
-    /**
-     * Determine if the user is authorized to make this request.
-     */
     public function authorize(): bool
     {
-        return false;
+        return true;
     }
 
-    /**
-     * Get the validation rules that apply to the request.
-     *
-     * @return array<string, \Illuminate\Contracts\Validation\ValidationRule|array<mixed>|string>
-     */
+    // バリデーション
     public function rules(): array
     {
         return [
-            //
+            'question' => ['required', 'string', 'max:1000'],
+            'solution' => ['required', 'string', 'max:1000'],
+            'correct_answer' => ['required', 'string', 'between:1,4'],
+            'content' => ['required', 'array', 'size:4'],
+            'content.*' => ['required', 'string', 'max:1000'],
         ];
     }
 }

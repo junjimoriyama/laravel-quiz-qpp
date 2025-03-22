@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\StoreQuizRequest;
 use App\Models\Level;
 use App\Models\Option;
 use App\Models\Quiz;
@@ -9,7 +10,7 @@ use Illuminate\Http\Request;
 
 class QuizController extends Controller
 {
-    const MAX_QUIZ_COUNT = 4;
+    const MAX_QUIZ_COUNT = 10;
     // クイズ新規画面表示
     public function create($level)
     {
@@ -18,16 +19,15 @@ class QuizController extends Controller
     }
 
     // クイズ新規登録
-    public function store(Request $request, $level)
+    public function store(StoreQuizRequest $request, $level)
     {
-        // まず該当のレベルを取得
         $level = Level::where('key', $level)->firstOrFail();
         // 該当するクイズを全て取得
         $quizzes = Quiz::where('level_id', $level->id)->get();
         // もしクイズの数が10より少なければ
         if (count($quizzes) <= self::MAX_QUIZ_COUNT) {
             // 該当のレベルを取得
-            $level = Level::where('key', $level)->firstOrFail();
+            // dd($level );
             $quiz = new Quiz();
             // レベルとの紐付け
             $quiz->level_id = $level->id;
@@ -44,13 +44,13 @@ class QuizController extends Controller
                 $option->is_correct = $request->correct_answer == $i ? 1 : 0;
                 $option->save();
             }
+            return to_route('admin.quizzes.show', [
+                'level' => $level->key,
+            ]);
         } else {
             return back()->with('error', '登録は最大' . self::MAX_QUIZ_COUNT . '問までです。');
         }
         // 該当レベルのクイズ一覧に戻る
-        return to_route('admin.quizzes.show', [
-            'level' => $level->key,
-        ]);
     }
 
     // クイズ表示
@@ -62,6 +62,7 @@ class QuizController extends Controller
         $quizzes = Quiz::where('level_id', $level->id)->get();
         // 登録クイズ数の制限
         $canResister = count($quizzes) < self::MAX_QUIZ_COUNT;
+
         return view('admin.quizzes.show', compact('level', 'quizzes', 'canResister'));
     }
 
@@ -80,7 +81,7 @@ class QuizController extends Controller
     // クイズ更新画面表示
     public function update(Request $request, $level, Quiz $quiz)
     {
-        // 該当レベル取得
+         // 該当レベル取得
         $level = Level::where('key', $level)->firstOrFail();
 
         $quizzes = Quiz::where('level_id', $level->id)->get();
@@ -91,7 +92,6 @@ class QuizController extends Controller
         $quiz->level_id = $level->id;
         $quiz->question = $request->question;
         $quiz->solution = $request->solution;
-        $quiz->save();
 
         // 選択肢の更新
         foreach ($quiz->options as $index => $option) {
