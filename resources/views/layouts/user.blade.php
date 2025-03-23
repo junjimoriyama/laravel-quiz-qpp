@@ -14,8 +14,8 @@
         <!-- Scripts -->
         @vite(['resources/css/app.css', 'resources/js/app.js'])
     </head>
-    <body class="font-sans antialiased">
-        <div class="min-h-screen bg-blue-900 dark:bg-blue-900">
+    <body class="font-sans antialiased header-height">
+        <div class="min-h-screen bg-blue-900">
 
             {{-- header読み込ませ --}}
             @include('components.header')

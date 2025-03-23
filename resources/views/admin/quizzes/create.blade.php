@@ -40,8 +40,8 @@
 
                         {{-- 選択肢入力（relativeを追加） --}}
                         <div class="relative w-full">
-                            <input class="w-full h-[50px] text-blue-900 p-2 rounded-md" id="content" name="content[]">
-
+                            <input class="w-full h-[50px] text-blue-900 p-2 rounded-md" id="content" name="content[]"
+                            value="{{old('content.' .($i - 1 ))}}">
                             {{-- エラー文をinputの真下中央にabsolute配置 --}}
                             @error("content.". ($i - 1))
                                 <div class="absolute left-1/2 translate-x-[-50%] top-[60px] text-base text-red-300">

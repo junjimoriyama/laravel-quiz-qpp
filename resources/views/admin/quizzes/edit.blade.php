@@ -73,7 +73,7 @@
                         class="flex bg-white text-blue-900 px-5 py-1 rounded mb-10 transition duration-300 hover:opacity-50">戻る
                     </button>
                     <button type="submit"
-                        class="flex bg-yellow-600 text-white px-5 py-1 rounded mb-10 transition duration-300 hover:opacity-50">登録
+                        class="flex bg-yellow-600 text-white px-5 py-1 rounded mb-10 transition duration-300 hover:opacity-50">更新
                     </button>
                 </div>
             </form>

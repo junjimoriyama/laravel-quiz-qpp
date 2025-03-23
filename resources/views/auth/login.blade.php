@@ -10,7 +10,8 @@
         <!-- Email Address -->
         <div>
             <x-input-label for="email" :value="__('Email')" />
-            <x-text-input id="email" class="block mt-1 w-full" type="email" name="email" :value="old('email')" required autofocus autocomplete="username" />
+            <x-text-input id="email" class="block mt-1 w-full" type="email" name="email" :value="old('email')" required
+                autofocus autocomplete="username" />
             <x-input-error :messages="$errors->get('email')" class="mt-2" />
         </div>
 
@@ -18,22 +19,22 @@
         <div class="mt-4">
             <x-input-label for="password" :value="__('Password')" />
 
-            <x-text-input id="password" class="block mt-1 w-full"
-                            type="password"
-                            name="password"
-                            required autocomplete="current-password" />
+            <x-text-input id="password" class="block mt-1 w-full" type="password" name="password" required
+                autocomplete="current-password" />
             <x-input-error :messages="$errors->get('password')" class="mt-2" />
         </div>
 
 
-        <div class="flex items-center justify-end mt-4">
+        <div class="flex items-center justify-end gap-3 mt-4">
 
-            <button class="p-2 rounded-md bg-blue-900 text-white transition duration-300 cursor-pointer hover:opacity-50">
+            <button type="button" onclick="location.href='/'"
+            class="p-2 border border-blue-900 rounded-md bg-white text-blue-900 transition duration-300 cursor-pointer hover:opacity-50">戻る
+            </button>
+
+            <button
+                class="p-2 rounded-md bg-blue-900 text-white transition duration-300 cursor-pointer hover:opacity-50">
                 {{ __('Log in') }}
             </button>
-            {{-- <x-primary-button class="ms-3">
-                {{ __('Log in') }}
-            </x-primary-button> --}}
         </div>
     </form>
 </x-guest-layout>
