@@ -17,7 +17,7 @@
                 {{-- 問題文 --}}
                 <div class="flex flex-col items-center gap-3 mb-10">
                     <label class="text-xl" for="question">問題文</label>
-                    <textarea class="w-2/3 min-w-[300px] h-[100px] mx-auto text-blue-900" id="question" name="question">{{ old('question') }}</textarea>
+                    <textarea class="w-2/3 min-w-[300px] h-[100px] mx-auto text-blue-900 rounded-md" id="question" name="question">{{ old('question') }}</textarea>
                     {{-- エラー文 --}}
                     @error('question')
                         <div class="text-base text-red-300">{{ $message }}</div>
@@ -26,7 +26,7 @@
                 {{-- 解説 --}}
                 <div class="flex flex-col items-center gap-3 mb-10">
                     <label class="text-xl" for="solution">解説</label>
-                    <textarea class="w-2/3 min-w-[300px] h-[100px] mx-auto text-blue-900" id="solution" name="solution">{{ old('solution') }}</textarea>
+                    <textarea class="w-2/3 min-w-[300px] h-[100px] mx-auto text-blue-900 rounded-md" id="solution" name="solution">{{ old('solution') }}</textarea>
                     {{-- エラー文 --}}
                     @error('solution')
                         <div class="text-base text-red-300">{{ $message }}</div>
@@ -40,7 +40,7 @@
 
                         {{-- 選択肢入力（relativeを追加） --}}
                         <div class="relative w-full">
-                            <input class="w-full h-[50px] text-blue-900 p-2" id="content" name="content[]">
+                            <input class="w-full h-[50px] text-blue-900 p-2 rounded-md" id="content" name="content[]">
 
                             {{-- エラー文をinputの真下中央にabsolute配置 --}}
                             @error("content.". ($i - 1))
@@ -64,9 +64,17 @@
                     </div>
                 @endfor
 
-                <button type="submit"
-                    class="flex mx-auto mt-10 bg-yellow-600 text-white px-5 py-1 rounded mb-10 transition duration-300 hover:opacity-50">登録
-                </button>
+                <div class="flex justify-center gap-5 mt-10">
+                    <button
+                        type="button"
+                        onclick="location.href='{{ route('admin.quizzes.show', $levelModel->key)}}'"
+                        class="flex bg-white text-blue-900 px-5 py-1 rounded mb-10 transition duration-300 hover:opacity-50">戻る
+                    </button>
+                    <button type="submit"
+                        class="flex bg-yellow-600 text-white px-5 py-1 rounded mb-10 transition duration-300 hover:opacity-50">登録
+                    </button>
+                </div>
+
             </form>
         </div>
     </section>

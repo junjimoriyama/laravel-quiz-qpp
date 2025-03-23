@@ -1,4 +1,23 @@
-@props([
+@props(['id', 'message', 'onConfirm',])
+
+<div id="{{ $id }}" class="fixed inset-0 bg-black bg-opacity-50 hidden justify-center items-center">
+    <div class="bg-white p-6 rounded shadow-md text-black">
+        <p>{{ $message }}</p>
+        <div class="mt-4 flex justify-end gap-4">
+            <button
+            onclick="document.getElementById('{{ $id }}').classList.add('hidden')"
+            class="bg-blue-800 text-white text-base px-5 py-1 rounded transition duration-300 hover:opacity-50"
+            >いいえ</button>
+            <button
+            onclick="{{ $onConfirm }}"
+            class="bg-red-800 text-white text-base px-5 py-1 rounded transition duration-300 hover:opacity-50"
+            >はい</button>
+        </div>
+    </div>
+</div>
+
+
+{{-- @props([
     'name',
     'show' => false,
     'maxWidth' => '2xl'
@@ -75,4 +94,23 @@ $maxWidth = [
     >
         {{ $slot }}
     </div>
-</div>
+</div> --}}
+
+
+{{-- @props(['id', 'message', 'onConfirm'])
+
+<div id="{{ $id }}" class="fixed inset-0 bg-black bg-opacity-50 hidden justify-center items-center">
+    <div class="bg-white p-6 rounded shadow-md text-black">
+        <p>{{ $message }}</p>
+        <div class="mt-4 flex justify-end gap-4">
+            <button
+            onclick="document.getElementById('{{ $id }}').classList.add('hidden')"
+            class="bg-blue-800 text-white text-base px-5 py-1 rounded transition duration-300 hover:opacity-50"
+            >キャンセル</button>
+            <button
+            onclick="{{ $onConfirm }}"
+            class="bg-red-800 text-white text-base px-5 py-1 rounded transition duration-300 hover:opacity-50"
+            >削除する</button>
+        </div>
+    </div>
+</div> --}}

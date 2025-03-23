@@ -70,29 +70,25 @@ class QuizController extends Controller
     // クイズ編集
     public function edit($level, Quiz $quiz)
     {
-        // dd($level);
         // 該当レベル取得
-        $level = Level::where('key', $level)->firstOrFail();
+        $levelModel = Level::where('key', $level)->firstOrFail();
         // 該当レベルの全てのクイズ
         $options = Option::where('quiz_id', $quiz->id)->get()->toArray();
 
-        return view('admin.quizzes.edit', compact('level', 'quiz', 'options'));
+        return view('admin.quizzes.edit', compact('levelModel', 'quiz', 'options'));
     }
 
     // クイズ更新画面表示
     public function update(Request $request, $level, Quiz $quiz)
     {
         // 該当レベル取得
-        $level = Level::where('key', $level)->firstOrFail();
-
-        $quizzes = Quiz::where('level_id', $level->id)->get();
-
-        $canResister = count($quizzes) < self::MAX_QUIZ_COUNT;
+        $levelModel = Level::where('key', $level)->firstOrFail();
 
         // クイズモデル
-        $quiz->level_id = $level->id;
+        $quiz->level_id = $levelModel->id;
         $quiz->question = $request->question;
         $quiz->solution = $request->solution;
+        $quiz->save();
 
         // 選択肢の更新
         foreach ($quiz->options as $index => $option) {
@@ -100,12 +96,13 @@ class QuizController extends Controller
             $option->is_correct = ($request->correct_answer == $index + 1) ? 1 : 0;
             $option->save();
         }
-        return to_route('admin.quizzes.show', ['level' => $level->key]);
+        return to_route('admin.quizzes.show', ['level' => $levelModel->key]);
     }
 
-    public function destroy(Level $level, Quiz $quiz)
+    public function destroy($level, Quiz $quiz)
     {
+        $levelModel = Level::where('key', $level)->firstOrFail();
         $quiz->delete();
-        return to_route('admin.quizzes.show', ['level' => $level->key]);
+        return to_route('admin.quizzes.show', ['level' => $levelModel->key]);
     }
 }
