@@ -3,7 +3,7 @@
         <div class="flex flex-col items-center sm:p-5">
             <div class="flex flex-col text-center w-full mb-12">
                 <h1 class="mt-10 text-2xl font-medium text-white sm:text-3xl ">
-                    {{ $level->label }}クイズ新規登録
+                    {{ $levelModel->label }}クイズ新規登録
                 </h1>
             </div>
 
@@ -11,7 +11,7 @@
                 <div class="text-red-500">{{ session('error') }}</div>
             @endif
 
-            <form method="POST" action="{{ route('admin.quizzes.store', ['level' => $level->key]) }}"
+            <form method="POST" action="{{ route('admin.quizzes.store', ['level' => $levelModel->key]) }}"
                 class="text-white text-2xl w-full max-w-7xl">
                 @csrf
                 {{-- 問題文 --}}

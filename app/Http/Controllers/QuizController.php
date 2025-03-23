@@ -14,44 +14,45 @@ class QuizController extends Controller
     // クイズ新規画面表示
     public function create($level)
     {
-        $level = Level::where('key', $level)->firstOrFail();
-        return view('admin.quizzes.create', compact('level'));
+        $levelModel = Level::where('key', $level)->firstOrFail();
+        return view('admin.quizzes.create', compact('levelModel'));
     }
 
     // クイズ新規登録
     public function store(StoreQuizRequest $request, $level)
     {
-        $level = Level::where('key', $level)->firstOrFail();
+        // 文字列 $level からモデル取得
+        $levelModel = Level::where('key', $level)->firstOrFail();
+
         // 該当するクイズを全て取得
-        $quizzes = Quiz::where('level_id', $level->id)->get();
+        $quizzes = Quiz::where('level_id', $levelModel->id)->get();
+
         // もしクイズの数が10より少なければ
         if (count($quizzes) <= self::MAX_QUIZ_COUNT) {
-            // 該当のレベルを取得
-            // dd($level );
             $quiz = new Quiz();
             // レベルとの紐付け
-            $quiz->level_id = $level->id;
+            $quiz->level_id = $levelModel->id;
             $quiz->question = $request->question;
             $quiz->solution = $request->solution;
             $quiz->save();
 
             for ($i = 1; $i <= 4; $i++) {
                 $option = new Option();
-                // クイズと紐付け
                 $option->quiz_id = $quiz->id;
                 $option->content = $request->content[$i - 1];
-                // 選択された正解番号と一致した場合だけ正解(1)にする
                 $option->is_correct = $request->correct_answer == $i ? 1 : 0;
                 $option->save();
             }
+
+            // リダイレクト時もlevelはkeyを渡す
             return to_route('admin.quizzes.show', [
-                'level' => $level->key,
+                'level' => $levelModel->key,
             ]);
         } else {
             return back()->with('error', '登録は最大' . self::MAX_QUIZ_COUNT . '問までです。');
         }
-        // 該当レベルのクイズ一覧に戻る
     }
+
 
     // クイズ表示
     public function show($level)
@@ -81,7 +82,7 @@ class QuizController extends Controller
     // クイズ更新画面表示
     public function update(Request $request, $level, Quiz $quiz)
     {
-         // 該当レベル取得
+        // 該当レベル取得
         $level = Level::where('key', $level)->firstOrFail();
 
         $quizzes = Quiz::where('level_id', $level->id)->get();
@@ -99,11 +100,12 @@ class QuizController extends Controller
             $option->is_correct = ($request->correct_answer == $index + 1) ? 1 : 0;
             $option->save();
         }
-        return view('admin.quizzes.show', compact('level', 'quizzes', 'canResister'));
+        return to_route('admin.quizzes.show', ['level' => $level->key]);
     }
 
-    public function destroy($level, Quiz $quiz)
+    public function destroy(Level $level, Quiz $quiz)
     {
-        dd($level, $quiz);
+        $quiz->delete();
+        return to_route('admin.quizzes.show', ['level' => $level->key]);
     }
 }

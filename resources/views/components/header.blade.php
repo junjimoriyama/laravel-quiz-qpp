@@ -1,4 +1,4 @@
-<header class="flex justify-between items-center w-full h-[120px] p-5 bg-white">
+<header class="flex justify-between items-center w-full  h-[var(--header-height)] p-5 bg-white">
     <div class="flex justify-between items-center w-full">
         <div>
             {{-- ロゴ --}}
