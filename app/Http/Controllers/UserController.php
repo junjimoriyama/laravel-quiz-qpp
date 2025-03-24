@@ -27,7 +27,7 @@ class UserController extends Controller
         ]);
     }
 
-    // 文字列で受け取る
+    // 各クイズ表示
     public function quizzes($level)
     {
         $levelModel = Level::with('quizzes.options')->where('key', $level)->firstOrFail();
@@ -46,4 +46,47 @@ class UserController extends Controller
             'quiz' => $quiz
         ]);
     }
+
+    // 正解を送る
+    public function answer(Request $request, $level)
+    {
+        // クイズID
+        $quizId = $request->quizId;
+        // オプションID
+        $optionId = $request->optionId;
+
+        $this->isCorrectAnswer();
+
+        $levelModel = Level::with('quizzes.options')->where('key', $level)->firstOrFail();
+        $quizzes = $levelModel->quizzes;
+
+        $quiz = $quizzes->firstWhere('id', $quizId);
+
+        dd( $quiz->options);
+
+        // 該当のクイズ
+        // $quiz = array_filter($quizzes, fn($quiz) => $quiz['id'] === (int)$request->quizId);
+
+
+
+
+        return view('user.answer', [
+            // 'quiz' => $quiz
+        ]);
+    }
+
+    // プレイヤーの解答が正解かどうか
+    private function isCorrectAnswer()
+    {
+
+    }
 }
+
+// $quizzes = $levelModel->quizzes;
+
+
+// $quiz = $quizzes->firstWhere('id', $quizId );
+
+// dd($quiz);
+
+// $quiz =  array_filter($quizzes, fn($quiz) => $quiz['id'] === (int)$request->quizId);
