@@ -8,18 +8,6 @@
                     class="px-4 py-2 rounded-md bg-white text-blue-900 transition duration-300 hover:opacity-50">{{ $level->label }}
                 </button>
             @endforeach
-            {{-- <button --}}
-            {{-- onclick="location.href='{{ route('admin.quizzes.show', 'mid') }}'" --}}
-            {{-- class="px-4 py-2 rounded-md bg-white text-blue-900 transition duration-300 hover:opacity-50">中級</button>
-            <button --}}
-            {{-- onclick="location.href='{{ route('admin.quizzes.show', 'pro') }}'" --}}
-            {{-- class="px-4 py-2 rounded-md bg-white text-blue-900 transition duration-300 hover:opacity-50">上級</button> --}}
         </div>
     </section>
 </x-user-layout>
-
-
-{{-- <button
-onclick="location.href='{{ route('user.levels.quizzes', [ 'level' => $level->key ]) }}'"
-class="px-4 py-2 rounded-md bg-white text-blue-900 transition duration-300 hover:opacity-50">{{ $level->label }}
-</button> --}}

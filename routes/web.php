@@ -15,10 +15,14 @@ Route::get('/', [UserController::class, 'top'])->name('top');
 
 // ユーザー
 Route::prefix('user')->name('user.')->group(function () {
+    // 各レベルのスタート画面
     Route::get('levels/{level}', [UserController::class, 'levels'])->name('levels');
+    // レベル
     Route::prefix('levels/{level}')->name('levels.')->group(function () {
         // クイズ出題画面に遷移
         Route::get('quizzes', [UserController::class, 'quizzes'])->name('quizzes');
+        // クイズ出題画面に遷移
+        Route::post('quizzes/answer', [UserController::class, 'answer'])->name('quizzes.answer');
     });
 });
 

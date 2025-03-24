@@ -30,12 +30,20 @@ class UserController extends Controller
     // 文字列で受け取る
     public function quizzes($level)
     {
-        $levelModel = Level::with('quizzes')->where('key', $level)->firstOrFail();
+        $levelModel = Level::with('quizzes.options')->where('key', $level)->firstOrFail();
 
+        $quizzes = $levelModel->quizzes->toArray();
+
+        shuffle($quizzes);
+
+        $quiz = $quizzes[0];
+
+        // dd($level);
 
         return view('user.quizzes', [
             'level' => $level,
-            'quizzes' => $levelModel->quizzes
+            // 'quizzes' => $quizzes,
+            'quiz' => $quiz
         ]);
     }
 }
