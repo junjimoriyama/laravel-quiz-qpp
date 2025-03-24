@@ -53,32 +53,41 @@ class UserController extends Controller
         // クイズID
         $quizId = $request->quizId;
         // オプションID
-        $optionId = $request->optionId;
-
-        $this->isCorrectAnswer();
+        $selectOption = $request->optionId;
 
         $levelModel = Level::with('quizzes.options')->where('key', $level)->firstOrFail();
+        // 全てのクイズ
         $quizzes = $levelModel->quizzes;
-
+        // 該当のクイズ
         $quiz = $quizzes->firstWhere('id', $quizId);
 
-        dd( $quiz->options);
+        $quizOptions = $quiz->options->toArray();
 
-        // 該当のクイズ
-        // $quiz = array_filter($quizzes, fn($quiz) => $quiz['id'] === (int)$request->quizId);
-
-
-
+        $result = $this->isCorrectAnswer($selectOption, $quizOptions);
 
         return view('user.answer', [
-            // 'quiz' => $quiz
+            'level' => $level,
+            'quiz' => $quiz,
+            'result' => $result,
         ]);
     }
 
     // プレイヤーの解答が正解かどうか
-    private function isCorrectAnswer()
-    {
+    private function isCorrectAnswer($selectOption, $quizOptions) {
+        // $selectOptionが$quizOptionsの正解のIdと一致するかどうか
+        $collectOption = null;
+        foreach($quizOptions as $option) {
+            if($option['is_correct']) {
+                $collectOption = $option;
+                break;
+            }
+        }
 
+
+        if($collectOption['id'] !== (int)$selectOption) {
+            return false;
+        }
+        return true;
     }
 }
 

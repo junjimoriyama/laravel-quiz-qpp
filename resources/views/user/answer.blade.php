@@ -2,7 +2,7 @@
 
     <section
         class="p-3 flex flex-col items-center justify-center gap-10 text-white min-h-[calc(100vh-var(--header-height))] h-full">
-        <h1>クイズ</h1>
+        <h1>クイズの結果は{{ $result ? '正解' : '不正解' }}</h1>
 
         <h2 class="p-3">{{ $quiz['question'] }}</h2>
 
@@ -14,12 +14,6 @@
             </ul>
 
 
-            <form method="POST"
-                action="{{ route('user.levels.quizzes.answer', [
-                    'level' => $level,
-                ]) }}"
-                class="mb-5">
-                @csrf
                 {{-- どのクイズか判別するために送る --}}
                 <input type="hidden" name="quizId" value="{{ $quiz['id'] }}">
                 @foreach ($quiz['options'] as $index => $option)
@@ -35,10 +29,9 @@
                     </ul>
                 @endforeach
 
-                <button type="submit"
-                    class="flex ml-auto bg-yellow-600 text-white px-5 py-1 rounded transition duration-300 hover:opacity-50">解答する
+                <button
+                    class="flex ml-auto bg-yellow-600 text-white px-5 py-1 rounded transition duration-300 hover:opacity-50">次の問題へ
                 </button>
-            </form>
         </div>
     </section>
 </x-user-layout>
