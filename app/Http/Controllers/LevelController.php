@@ -7,4 +7,11 @@ use Illuminate\Http\Request;
 
 class LevelController extends Controller
 {
+
+    // protected $fillable = ['key', 'name'];
+
+    // public function getRouteKeyName()
+    // {
+    //     return 'key';
+    // }
 }

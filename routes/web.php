@@ -3,16 +3,26 @@
 //     return view('dashboard');
 // })->middleware(['auth', 'verified'])->name('dashboard');
 
-use App\Http\Controllers\LevelController;
+use App\Http\Controllers\UserController;
+// use App\Http\Controllers\LevelController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\QuizController;
 use Illuminate\Support\Facades\Route;
 
-// 初めに開かれる画面
-Route::get('/', function () {
-    return view('user/top');
+
+// ユーザートップ画面
+Route::get('/', [UserController::class, 'top'])->name('top');
+
+// ユーザー
+Route::prefix('user')->name('user.')->group(function () {
+    Route::get('levels/{level}', [UserController::class, 'levels'])->name('levels');
+    Route::prefix('levels/{level}')->name('levels.')->group(function () {
+        // クイズ出題画面に遷移
+        Route::get('quizzes', [UserController::class, 'quizzes'])->name('quizzes');
+    });
 });
 
+// 認証
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
@@ -21,7 +31,6 @@ Route::middleware('auth')->group(function () {
 
 // ログイン
 require __DIR__ . '/auth.php';
-
 
 // ログイン中のみ表示可能
 Route::prefix('admin')->name('admin.')->middleware('auth')->group(function () {
