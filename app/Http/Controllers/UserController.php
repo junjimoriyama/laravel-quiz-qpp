@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\AnswerQuizRequest;
 use App\Models\Level;
 use App\Models\Quiz;
 use Illuminate\Http\Request;
@@ -20,7 +21,7 @@ class UserController extends Controller
     public function levels($level)
     {
         // 過去の結果をクリア
-        session()->forget('resultArray');
+        session()->forget('quizResultsArray');
 
         $levelModel = Level::withCount('quizzes')->where('key', $level)->firstOrFail();
 
@@ -35,34 +36,32 @@ class UserController extends Controller
     public function quizzes(Request $request, $level)
     {
         // セッションから回答結果取得
-        $resultArray = session('resultArray');
+        $quizResultsArray = session('quizResultsArray');
 
         // レベルのクイズと選択肢を取得
         $levelModel = Level::with('quizzes.options')->where('key', $level)->firstOrFail();
         $quizzes = $levelModel->quizzes;
 
         // 初回のみセッションにクイズ一覧をセット（シャッフル）
-        if (!$resultArray) {
+        if (!$quizResultsArray) {
             $quizIds = $quizzes->pluck('id')->toArray();
             shuffle($quizIds);
 
-            $resultArray = array_map(fn($quizId) => [
+            $quizResultsArray = array_map(fn($quizId) => [
                 'quizId' => $quizId,
                 'result' => null
             ], $quizIds);
 
-            session(['resultArray' => $resultArray]);
+            session(['quizResultsArray' => $quizResultsArray]);
         }
 
         // 未回答のクイズを取得
-        $noAnswerQuiz = collect($resultArray)->filter(fn($item) => $item['result'] === null)->first();
-
-        dump($noAnswerQuiz); // デバッグ確認用
+        $noAnswerQuiz = collect($quizResultsArray)->filter(fn($item) => $item['result'] === null)->first();
 
         // 現在のクイズ番号を計算
         if ($noAnswerQuiz) {
             $currentQuizIndex = 0;
-            foreach ($resultArray as $index => $result) {
+            foreach ($quizResultsArray as $index => $result) {
                 if ($result['quizId'] === $noAnswerQuiz['quizId']) {
                     $currentQuizIndex = $index + 1; // 配列は0スタート
                     break;
@@ -71,13 +70,20 @@ class UserController extends Controller
             // クイズの詳細情報取得
             $quiz = $quizzes->firstWhere('id', $noAnswerQuiz['quizId']);
         } else {
+            // dd($quizResultsArray);
+            $correctAnswerCount =  collect($quizResultsArray)->filter(fn($item) => $item['result'] === true)->count();
+            // $correctAnswerCount = array_filter($quizResultsArray, fn($item) => $item['result'] === true );
             // 全問回答済みなら結果画面へ
-            return view('user.result', [
-                'level' => $level,
-                'resultArray' => $resultArray,
+            return to_route('user.levels.quizzes.result', [
+            'level' => $level,
             ]);
+            // return view('user.result', [
+            //     'level' => $level,
+            //     'quizzes' => $quizzes,
+            //     'quizResultsArray' => $quizResultsArray,
+            //     'correctAnswerCount' => $correctAnswerCount,
+            // ]);
         }
-
         // クイズ画面を表示
         return view('user.quizzes', [
             'level' => $level,
@@ -87,7 +93,7 @@ class UserController extends Controller
     }
 
     // 解答送信処理
-    public function answer(Request $request, $level)
+    public function answer(AnswerQuizRequest $request, $level)
     {
         // クイズIDと選択したオプションIDを取得
         $quizId = $request->quizId;
@@ -103,18 +109,17 @@ class UserController extends Controller
         $isCorrectAnswer = $this->isCorrectAnswer($selectOptionId, $quizOptions);
 
         // セッションから回答配列取得
-        $resultArray = session('resultArray', []);
+        $quizResultsArray = session('quizResultsArray', []);
 
         // 該当クイズの結果を更新
-        foreach ($resultArray as $index => $result) {
+        foreach ($quizResultsArray as $index => $result) {
             if ($result['quizId'] === (int)$quizId) {
-                $resultArray[$index]['result'] = $isCorrectAnswer;
+                $quizResultsArray[$index]['result'] = $isCorrectAnswer;
                 break;
             }
         }
-
         // 更新した結果をセッション保存
-        session(['resultArray' => $resultArray]);
+        session(['quizResultsArray' => $quizResultsArray]);
 
         // 解答結果表示
         return view('user.answer', [
@@ -124,14 +129,29 @@ class UserController extends Controller
         ]);
     }
 
+    public function result($level)
+    {
+        $quizResultsArray = session('quizResultsArray');
+
+        $quizzesCount = count($quizResultsArray);
+
+        $correctAnswerCount = collect($quizResultsArray)->filter(fn($item) => $item['result'] === true)->count();
+
+        dd($correctAnswerCount);
+        return view('user/result', [
+            'quizzesCount' => $quizzesCount,
+            'correctAnswerCount' =>  $correctAnswerCount
+        ]);
+    }
+
     // 解答判定処理
     private function isCorrectAnswer($selectOptionId, $quizOptions)
     {
         // 正解の選択肢を探す
         $correctOption = null;
-        foreach($quizOptions as $quizOption) {
+        foreach ($quizOptions as $quizOption) {
             // オプションの中で正解のものだけ取得
-            if($quizOption['is_correct']) {
+            if ($quizOption['is_correct']) {
                 $correctOption = $quizOption;
             }
         }

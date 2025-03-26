@@ -23,6 +23,8 @@ Route::prefix('user')->name('user.')->group(function () {
         Route::get('quizzes', [UserController::class, 'quizzes'])->name('quizzes');
         // クイズ出題画面に遷移
         Route::post('quizzes/answer', [UserController::class, 'answer'])->name('quizzes.answer');
+        // クイズ結果画面に遷移
+        Route::get('quizzes/result', [UserController::class, 'result'])->name('quizzes.result');
     });
 });
 

@@ -24,12 +24,12 @@
             @foreach ($quiz->options as $index => $option)
                 <ul
                     class="relative flex-col flex sm:flex-row items-center border-b py-2 {{ $loop->last ? 'mb-8' : '' }}">
-                    <li class="flex justify-start sm:w-32 gap-3 mb-3 sm:mb-0">
+                    <li class="sm:w-32 flex gap-3 mb-3 sm:mb-0">
                         <span class="sm:w-12 text-center">{{ $index + 1 }}</span>
                         @if ($option->is_correct === 1)
-                            <span class="text-4xl scale-90">⚪</span>
+                            <span class="mx-auto text-4xl">⚪︎</span>
                         @else
-                            <span class="text-red-500 text-4xl">×</span>
+                            <span class="mx-auto text-red-500 text-4xl">×</span>
                         @endif
                     </li>
                     <li class="flex-1 text-center ml-5 sm:ml-0">{{ $option->content }}</li>

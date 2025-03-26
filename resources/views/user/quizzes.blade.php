@@ -1,7 +1,7 @@
 <x-user-layout>
 
     <section
-        class="p-3 flex flex-col items-center justify-center gap-10 text-white min-h-[calc(100vh-var(--header-height))] h-full">
+        class="p-3 flex flex-col items-center justify-center gap-3 text-white min-h-[calc(100vh-var(--header-height))]">
         <h1>{{$currentQuizIndex}}問目のクイズ</h1>
 
         <h2 class="p-3">{{ $quiz['question'] }}</h2>
@@ -27,7 +27,7 @@
                         class="relative flex-col flex sm:flex-row items-center border-b py-2 {{ $loop->last ? 'mb-8' : '' }}">
                         <li class="sm:w-32 flex gap-3 mb-3 sm:mb-0">
                             <span class="sm:w-12 text-center">{{ $index + 1 }}</span>
-                            <span class="sm:w-20 text-center">
+                            <span class="sm:w-20 text-center flex justify-center  items-center">
                                 <input class="scale-125" type="radio" name="optionId" value="{{ $option['id'] }}" required>
                             </span>
                         </li>
