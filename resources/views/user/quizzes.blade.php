@@ -2,7 +2,7 @@
 
     <section
         class="p-3 flex flex-col items-center justify-center gap-10 text-white min-h-[calc(100vh-var(--header-height))] h-full">
-        <h1>クイズ</h1>
+        <h1>{{$currentQuizIndex}}問目のクイズ</h1>
 
         <h2 class="p-3">{{ $quiz['question'] }}</h2>
 
@@ -14,13 +14,13 @@
             </ul>
 
 
+            {{-- どのクイズか判別するために送る --}}
             <form method="POST"
                 action="{{ route('user.levels.quizzes.answer', [
                     'level' => $level,
                 ]) }}"
                 class="mb-5">
                 @csrf
-                {{-- どのクイズか判別するために送る --}}
                 <input type="hidden" name="quizId" value="{{ $quiz['id'] }}">
                 @foreach ($quiz['options'] as $index => $option)
                     <ul
@@ -28,7 +28,7 @@
                         <li class="sm:w-32 flex gap-3 mb-3 sm:mb-0">
                             <span class="sm:w-12 text-center">{{ $index + 1 }}</span>
                             <span class="sm:w-20 text-center">
-                                <input class="scale-125" type="radio" name="optionId" value="{{ $option['id'] }}">
+                                <input class="scale-125" type="radio" name="optionId" value="{{ $option['id'] }}" required>
                             </span>
                         </li>
                         <li class="flex-1 text-center ml-5 sm:ml-0">{{ $option['content'] }}</li>
