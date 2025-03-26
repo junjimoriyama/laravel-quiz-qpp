@@ -70,19 +70,10 @@ class UserController extends Controller
             // クイズの詳細情報取得
             $quiz = $quizzes->firstWhere('id', $noAnswerQuiz['quizId']);
         } else {
-            // dd($quizResultsArray);
-            $correctAnswerCount =  collect($quizResultsArray)->filter(fn($item) => $item['result'] === true)->count();
-            // $correctAnswerCount = array_filter($quizResultsArray, fn($item) => $item['result'] === true );
             // 全問回答済みなら結果画面へ
             return to_route('user.levels.quizzes.result', [
             'level' => $level,
             ]);
-            // return view('user.result', [
-            //     'level' => $level,
-            //     'quizzes' => $quizzes,
-            //     'quizResultsArray' => $quizResultsArray,
-            //     'correctAnswerCount' => $correctAnswerCount,
-            // ]);
         }
         // クイズ画面を表示
         return view('user.quizzes', [
@@ -121,8 +112,14 @@ class UserController extends Controller
         // 更新した結果をセッション保存
         session(['quizResultsArray' => $quizResultsArray]);
 
+        $remainingQuizCount = collect($quizResultsArray)->filter(fn($item) => $item['result'] === null)->count();
+
+        // dump($remainingQuizCount);
+
         // 解答結果表示
         return view('user.answer', [
+            'remainingQuizCount' => $remainingQuizCount,
+            'quizResultsArray' => $quizResultsArray,
             'level' => $level,
             'quiz' => $quiz,
             'isCorrectAnswer' => $isCorrectAnswer,
@@ -134,11 +131,11 @@ class UserController extends Controller
         $quizResultsArray = session('quizResultsArray');
 
         $quizzesCount = count($quizResultsArray);
-
+        // 答えてないクイズをカウント
         $correctAnswerCount = collect($quizResultsArray)->filter(fn($item) => $item['result'] === true)->count();
 
-        dd($correctAnswerCount);
         return view('user/result', [
+            'quizResultsArray' => $quizResultsArray,
             'quizzesCount' => $quizzesCount,
             'correctAnswerCount' =>  $correctAnswerCount
         ]);

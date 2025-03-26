@@ -40,7 +40,7 @@
                 onclick="location.href='{{ route('user.levels.quizzes', [
                     'level' => $level,
                 ]) }}'"
-                class="flex ml-auto bg-yellow-600 text-white px-5 py-1 rounded transition duration-300 hover:opacity-50">次の問題へ
+                class="flex ml-auto bg-yellow-600 text-white px-5 py-1 rounded transition duration-300 hover:opacity-50">{{$remainingQuizCount !== 0 ? "次の問題へ" : "結果を表示"}}
             </button>
         </div>
     </section>
