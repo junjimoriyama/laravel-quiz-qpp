@@ -59,7 +59,7 @@ class AuthenticatedSessionController extends Controller
         }
 
         // 一般ユーザーは通常のHOMEへ
-        return redirect()->intended('/dashboard');
+        return redirect()->intended('/');
     }
 
     /**
@@ -73,7 +73,7 @@ class AuthenticatedSessionController extends Controller
 
         $request->session()->regenerateToken();
 
-        return redirect('/');
+        return redirect('login');
     }
 }
 

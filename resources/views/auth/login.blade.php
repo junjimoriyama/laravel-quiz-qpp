@@ -5,7 +5,7 @@
     <form method="POST" action="{{ route('login') }}">
         @csrf
 
-        <p class="mb-5 text-center text-blue-900 font-bold">管理者ログイン</p>
+        <p class="mb-5 text-center text-blue-900 font-bold">ログイン</p>
 
         <!-- Email Address -->
         <div>

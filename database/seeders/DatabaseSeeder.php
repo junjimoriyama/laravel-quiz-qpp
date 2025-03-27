@@ -18,9 +18,9 @@ class DatabaseSeeder extends Seeder
         User::updateOrCreate(
             ['email' => 'test@example.com'],
             [
-                'is_admin' => true,
                 'name' => 'j',
                 'password' => Hash::make('123'),
+                'is_admin' => true,
             ]
         );
 
@@ -28,10 +28,10 @@ class DatabaseSeeder extends Seeder
         User::updateOrCreate(
             ['email' => 'user@example.com'],
             [
-                'is_admin' => false,
                 'name' => 'jj',
                 'password' => Hash::make('111'),
-            ]
+                'is_admin' => false,
+                ]
         );
     }
 }
