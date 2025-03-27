@@ -15,4 +15,9 @@ class Level extends Model
     {
         return $this->hasMany(Quiz::class);
     }
+
+    public function record()
+    {
+        return $this->hasMany(Record::class);
+    }
 }

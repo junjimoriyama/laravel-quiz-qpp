@@ -128,16 +128,22 @@ class UserController extends Controller
 
     public function result($level)
     {
+        // 結果の情報
         $quizResultsArray = session('quizResultsArray');
-
+        // クイズ数
         $quizzesCount = count($quizResultsArray);
         // 答えてないクイズをカウント
         $correctAnswerCount = collect($quizResultsArray)->filter(fn($item) => $item['result'] === true)->count();
+        // 正解率
+        $correctPercentage = (int)round((($correctAnswerCount / $quizzesCount) * 100));
+        // レベルと点数（正解数※10点満点）と正解率
+
 
         return view('user/result', [
             'quizResultsArray' => $quizResultsArray,
             'quizzesCount' => $quizzesCount,
-            'correctAnswerCount' =>  $correctAnswerCount
+            'correctAnswerCount' =>  $correctAnswerCount,
+            'correctPercentage' =>  $correctPercentage,
         ]);
     }
 

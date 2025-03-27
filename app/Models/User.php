@@ -46,4 +46,9 @@ class User extends Authenticatable
             'is_admin' => 'boolean'
         ];
     }
+
+    public function record()
+    {
+        return $this->hasMany(Record::class);
+    }
 }
