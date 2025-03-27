@@ -24,11 +24,20 @@
             <x-input-error :messages="$errors->get('password')" class="mt-2" />
         </div>
 
+        <!-- 管理者チェックボックス -->
+        <div class="mt-4">
+            <label class="inline-flex items-center">
+                <input type="checkbox" name="admin_login" value="1"
+                    class="rounded border-gray-300 text-blue-900 shadow-sm focus:ring-text-blue-900">
+                <span class="ml-2 text-sm text-blue-900">管理者としてログインする</span>
+            </label>
+        </div>
+
 
         <div class="flex items-center justify-end gap-3 mt-4">
 
             <button type="button" onclick="location.href='/'"
-            class="p-2 border border-blue-900 rounded-md bg-white text-blue-900 transition duration-300 cursor-pointer hover:opacity-50">戻る
+                class="p-2 border border-blue-900 rounded-md bg-white text-blue-900 transition duration-300 cursor-pointer hover:opacity-50">戻る
             </button>
 
             <button
