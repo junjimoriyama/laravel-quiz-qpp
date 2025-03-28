@@ -179,7 +179,7 @@ class UserController extends Controller
             2 => '中級',
             3 => '上級',
         ];
-
+        // 各レベルのレコード数のうち、最大の件数
         $recordsMaxCount = $records->groupBy('level_id')->map->count()->max();
 
         return view('user.records', compact('user', 'records', 'levelsArray', 'recordsMaxCount'));

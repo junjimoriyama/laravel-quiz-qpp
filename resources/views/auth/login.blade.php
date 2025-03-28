@@ -10,8 +10,12 @@
         <!-- Email Address -->
         <div>
             <x-input-label for="email" :value="__('Email')" />
-            <x-text-input id="email" class="block mt-1 w-full" type="email" name="email" :value="old('email')" required
+            <x-text-input id="email" class="block mt-1 mb-2 w-full" type="email" name="email" :value="old('email')" required
                 autofocus autocomplete="username" />
+                <div class="flex gap-8 text-gray-400">
+                    <p class="text-xs">ユーザー：user@example.com</p>
+                    <p class="text-xs">管理者：user@example.com</p>
+                </div>
             <x-input-error :messages="$errors->get('email')" class="mt-2" />
         </div>
 
@@ -19,8 +23,12 @@
         <div class="mt-4">
             <x-input-label for="password" :value="__('Password')" />
 
-            <x-text-input id="password" class="block mt-1 w-full" type="password" name="password" required
+            <x-text-input id="password" class="block mt-1 mb-2 w-full" type="password" name="password" required
                 autocomplete="current-password" />
+                <div class="flex gap-8 text-gray-400">
+                    <p class="text-xs">ユーザー：111</p>
+                    <p class="text-xs">管理者：123</p>
+                </div>
             <x-input-error :messages="$errors->get('password')" class="mt-2" />
         </div>
 
@@ -36,9 +44,9 @@
 
         <div class="flex items-center justify-end gap-3 mt-4">
 
-            <button type="button" onclick="location.href='/'"
+            {{-- <button type="button" onclick="location.href='/'"
                 class="p-2 border border-blue-900 rounded-md bg-white text-blue-900 transition duration-300 cursor-pointer hover:opacity-50">戻る
-            </button>
+            </button> --}}
 
             <button
                 class="p-2 rounded-md bg-blue-900 text-white transition duration-300 cursor-pointer hover:opacity-50">
