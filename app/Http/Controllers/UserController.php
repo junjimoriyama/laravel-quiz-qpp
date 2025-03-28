@@ -74,7 +74,7 @@ class UserController extends Controller
         } else {
             // 全問回答済みなら結果画面へ
             return to_route('user.levels.quizzes.result', [
-            'level' => $level,
+                'level' => $level,
             ]);
         }
         // クイズ画面を表示
@@ -150,7 +150,7 @@ class UserController extends Controller
         $recordsCount = $records->count();
 
         // データベースに保存する処理
-        if($recordsCount <= 10) {
+        if ($recordsCount <= 10) {
             Record::create([
                 'user_id' => Auth::id(),
                 'level_id' => $levelId,
@@ -159,6 +159,7 @@ class UserController extends Controller
             ]);
         }
 
+        // 結果画面に遷移
         return view('user/result', [
             'quizResultsArray' => $quizResultsArray,
             'quizzesCount' => $quizzesCount,
@@ -172,6 +173,16 @@ class UserController extends Controller
         // ユーザー情報
         $user = Auth::user();
         $records = $user->records;
+        // 各レベルの連想配列
+        $levelsArray = [
+            1 => '初級',
+            2 => '中級',
+            3 => '上級',
+        ];
+
+        $recordsMaxCount = $records->groupBy('level_id')->map->count()->max();
+
+        return view('user.records', compact('user', 'records', 'levelsArray', 'recordsMaxCount'));
     }
 
 
