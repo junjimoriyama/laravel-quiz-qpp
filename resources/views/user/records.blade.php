@@ -1,97 +1,36 @@
 <x-user-layout>
-    <section class="flex flex-col items-center justify-center text-white min-h-[calc(100vh-var(--header-height))] px-4">
-        <h1 class="text-3xl font-bold mb-6">レコード</h1>
+    <section class="flex flex-col items-center justify-center text-white min-h-[calc(100vh-var(--header-height))] px-4 bg-blue-900">
+        <h1 class="text-4xl font-bold mb-8 tracking-wide">レコード一覧</h1>
 
-        <p>{{ $recordsMaxCount }}</p>
-
-        <ul class="flex">
-            <li class="flex flex-col">
-                <span>回数</span>
-                @for ($i = 0; $i < $recordsMaxCount; $i++)
-                    <span>{{ $i + 1 }}回目</span>
-                @endfor
-            </li>
-
-            {{-- 初級、中級、上級に分ける --}}
-            @foreach ($levelsArray as $levelId => $levelName)
-                <li class="flex flex-col">
-                    @php
-                        // レベル別に並べ直す
-                        $recordByLevel = $records->where('level_id', $levelId)->values();
-                    @endphp
-                    <span>{{ $levelName }}</span>
-                    @for ($i = 0; $i < $recordsMaxCount; $i++)
-                        <span>{{ $recordByLevel[$i]->score }}</span>
-                    @endfor
-
-            </li>
-            @endforeach
-
-        </ul>
-
-
-
-    </section>
-</x-user-layout>
-
-
-
-{{-- @php
-    $scoresA = collect($records)->filter(fn($r) => $r['type'] === 'A');
-    $scoresB = collect($records)->filter(fn($r) => $r['type'] === 'B');
-    $scoresC = collect($records)->filter(fn($r) => $r['type'] === 'C');
-@endphp
-
-<h2>タイプA</h2>
-@foreach ($scoresA as $score)
-    <p>{{ $score['point'] }}</p>
-@endforeach
-
-<h2>タイプB</h2>
-@foreach ($scoresB as $score)
-    <p>{{ $score['point'] }}</p>
-@endforeach
-
-<h2>タイプC</h2>
-@foreach ($scoresC as $score)
-    <p>{{ $score['point'] }}</p>
-@endforeach --}}
-
-
-{{-- <x-user-layout>
-    <section class="flex flex-col items-center justify-center text-white min-h-[calc(100vh-var(--header-height))] px-4">
-        <h1 class="text-3xl font-bold mb-6">レコード</h1>
-
-        @php
-            $maxCount = $records->groupBy('level_id')->map->count()->max();
-        @endphp
-
-        <ul class="flex gap-8 text-xl font-light">
+        <ul class="flex gap-8 text-lg font-light bg-white/10 p-6 rounded-2xl shadow-xl backdrop-blur-md">
+            {{-- 回数列 --}}
             <li class="flex flex-col items-center w-24 text-center">
-                <div class="font-semibold mb-2">回数</div>
-                @for ($i = 0; $i < $maxCount; $i++)
-                    <div class="py-1">{{ $i + 1 }}回目</div>
+                <div class="font-semibold mb-2 text-slate-300">回数</div>
+                {{-- 挑戦したクイズの数(最大の件数) --}}
+                @for ($i = 0; $i < $recordsMaxCount; $i++)
+                    <div class="py-1 text-slate-200">{{ $i + 1 }}回目</div>
                 @endfor
             </li>
 
+            {{-- 各レベル列 --}}
             @foreach ($levelsArray as $levelId => $levelName)
                 @php
+                // 指定レベルのレコードだけを取り出し、インデックスを0から振り直す
                     $recordsByLevel = $records->where('level_id', $levelId)->values();
                 @endphp
                 <li class="flex flex-col items-center w-24 text-center">
-                    <div class="font-semibold mb-2">{{ $levelName }}</div>
-                    @for ($i = 0; $i < $maxCount; $i++)
-                        <div class="py-1">
-                            @php
-                            $record = $recordsByLevel[$i] ?? null;
+                    <div class="font-semibold mb-2 text-yellow-500">{{ $levelName }}</div>
+                    @for ($i = 0; $i < $recordsMaxCount; $i++)
+                        @php
+                        //  i番目のレコードが存在すれば取得。なければnullを入れる(nullはエラー回避)
+                        $record = $recordsByLevel[$i] ?? null;
                         @endphp
-
-                        {{ $record ? $record->score . '点' : 'ー' }}
-
+                        <div class="py-1 text-white">
+                            {{ $record ? $record->score . '点' : 'ー' }}
                         </div>
                     @endfor
                 </li>
             @endforeach
         </ul>
     </section>
-</x-user-layout> --}}
+</x-user-layout>
