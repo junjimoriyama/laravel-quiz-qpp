@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use App\Http\Requests\AnswerQuizRequest;
 use App\Models\Level;
 use App\Models\Quiz;
+use App\Models\Record;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
 
 class UserController extends Controller
@@ -126,18 +128,36 @@ class UserController extends Controller
         ]);
     }
 
+    // 結果画面表示
     public function result($level)
     {
+        // レベルのid
+        $levelId = Level::where('key', $level)->firstOrFail()->id;
+        // dd($levelId);
         // 結果の情報
         $quizResultsArray = session('quizResultsArray');
         // クイズ数
         $quizzesCount = count($quizResultsArray);
         // 答えてないクイズをカウント
         $correctAnswerCount = collect($quizResultsArray)->filter(fn($item) => $item['result'] === true)->count();
+        $score = $correctAnswerCount * 10;
         // 正解率
         $correctPercentage = (int)round((($correctAnswerCount / $quizzesCount) * 100));
-        // レベルと点数（正解数※10点満点）と正解率
 
+        // レコード数を取得
+        $user = Auth::user();
+        $records = $user->records;
+        $recordsCount = $records->count();
+
+        // データベースに保存する処理
+        if($recordsCount <= 10) {
+            Record::create([
+                'user_id' => Auth::id(),
+                'level_id' => $levelId,
+                'score' => $score,
+                'correct_percentage' => $correctPercentage,
+            ]);
+        }
 
         return view('user/result', [
             'quizResultsArray' => $quizResultsArray,
@@ -146,6 +166,14 @@ class UserController extends Controller
             'correctPercentage' =>  $correctPercentage,
         ]);
     }
+
+    public function records()
+    {
+        // ユーザー情報
+        $user = Auth::user();
+        $records = $user->records;
+    }
+
 
     // 解答判定処理
     private function isCorrectAnswer($selectOptionId, $quizOptions)

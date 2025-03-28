@@ -8,6 +8,12 @@
                     class="px-4 py-2 rounded-md bg-white text-blue-900 transition duration-300 hover:opacity-50">{{ $level->label }}
                 </button>
             @endforeach
+
         </div>
+        <button
+        class="text-2xl"
+        onclick="location.href='{{ route('user.records') }}'"
+        >これまでの結果を見る
+        </button>
     </section>
 </x-user-layout>

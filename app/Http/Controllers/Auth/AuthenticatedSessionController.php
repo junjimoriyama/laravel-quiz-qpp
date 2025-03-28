@@ -43,8 +43,6 @@ class AuthenticatedSessionController extends Controller
         // ログインユーザーの情報取得
         $user = Auth::user();
 
-        // dd($request->has('admin_login'), $user->is_admin);
-
         // 管理者チェックが付いていて、管理者でなかった場合はログアウト
         if ($request->has('admin_login') && !$user->is_admin) {
             Auth::logout();

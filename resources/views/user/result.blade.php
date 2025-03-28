@@ -15,6 +15,10 @@
             <span class="mx-5 text-4xl text-yellow-500">{{ $correctPercentage }}%</span>
             @endif
         </div>
+        <button
+        onclick="location.href='{{ route('user.records') }}'"
+        >これまでの結果を見る
+    </button>
     </section>
-
 </x-user-layout>
+{{-- onclick="location.href='{{ route('admin.quizzes.show', $levelModel->key)}}'" --}}

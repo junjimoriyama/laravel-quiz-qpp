@@ -15,6 +15,8 @@ Route::get('/', [UserController::class, 'top'])->name('top');
 
 // ユーザー
 Route::prefix('user')->name('user.')->group(function () {
+    // レコード画面表示
+    Route::get('records', [UserController::class, 'records'])->name('records');
     // 各レベルのスタート画面
     Route::get('levels/{level}', [UserController::class, 'levels'])->name('levels');
     // レベル
