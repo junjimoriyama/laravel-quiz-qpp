@@ -14,9 +14,14 @@ class UserController extends Controller
     // トップページ表示
     public function top()
     {
+        // ログインしていなければ
+        if(!Auth::check()){
+            return to_route('login');
+        }
+        // ログインしていれば
         $levels = Level::all();
-
         return view('user.top', compact('levels'));
+
     }
 
     // レベル選択後のスタート画面表示（セッション初期化）
@@ -107,8 +112,15 @@ class UserController extends Controller
         // 該当クイズの結果を更新
         foreach ($quizResultsArray as $index => $result) {
             if ($result['quizId'] === (int)$quizId) {
-                $quizResultsArray[$index]['result'] = $isCorrectAnswer;
-                break;
+                if ($result['result'] !== null) {
+                    // すでに回答済み → 次のクイズに進む（戻ることはない）
+                    return to_route('user.levels.quizzes', ['level' => $level])
+                        ->with('message', 'このクイズにはすでに回答済みです。');
+                } else {
+                    // 未回答 → 回答を記録
+                    $quizResultsArray[$index]['result'] = $isCorrectAnswer;
+                    break;
+                }
             }
         }
         // 更新した結果をセッション保存
@@ -147,10 +159,10 @@ class UserController extends Controller
         // レコード数を取得
         $user = Auth::user();
         $records = $user->records;
-        $recordsCount = $records->count();
+        // 現在のレベルのカウント数
+        $currentLevelCount =  $records->where('level_id', $levelId)->count();
 
-        // データベースに保存する処理
-        if ($recordsCount <= 10) {
+        if ($currentLevelCount < 100) {
             Record::create([
                 'user_id' => Auth::id(),
                 'level_id' => $levelId,
@@ -168,6 +180,7 @@ class UserController extends Controller
         ]);
     }
 
+    // 今までの結果を表示
     public function records()
     {
         // ユーザー情報

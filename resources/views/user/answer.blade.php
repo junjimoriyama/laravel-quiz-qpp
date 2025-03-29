@@ -27,7 +27,7 @@
                     <li class="sm:w-32 flex gap-3 mb-3 sm:mb-0">
                         <span class="sm:w-12 text-center">{{ $index + 1 }}</span>
                         @if ($option->is_correct === 1)
-                            <span class="mx-auto text-4xl">⚪︎</span>
+                            <span class="mx-auto text-yellow-600 text-4xl font-black">⚫︎</span>
                         @else
                             <span class="mx-auto text-red-500 text-4xl">×</span>
                         @endif
@@ -40,7 +40,7 @@
                 onclick="location.href='{{ route('user.levels.quizzes', [
                     'level' => $level,
                 ]) }}'"
-                class="flex ml-auto bg-yellow-600 text-white px-5 py-1 rounded transition duration-300 hover:opacity-50">{{$remainingQuizCount !== 0 ? "次の問題へ" : "結果を表示"}}
+                class="flex ml-auto bg-white text-blue-900 px-5 py-1 rounded transition duration-300 hover:opacity-50">{{$remainingQuizCount !== 0 ? "次の問題へ" : "結果を表示"}}
             </button>
         </div>
     </section>

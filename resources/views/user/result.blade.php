@@ -16,8 +16,10 @@
             @endif
         </div>
         <button
-        onclick="location.href='{{ route('user.records') }}'"
-        >これまでの結果を見る
+        onclick="location.href='{{ route('top') }}'"
+        class="flex mt-5 bg-white text-blue-900 px-5 py-1 rounded transition duration-300 hover:opacity-50"
+        >
+        クイズに選択画面に戻る
     </button>
     </section>
 </x-user-layout>

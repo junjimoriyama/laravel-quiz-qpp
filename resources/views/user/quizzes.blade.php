@@ -13,7 +13,6 @@
                 <li class="flex-1 text-center mb-2">選択肢</li>
             </ul>
 
-
             {{-- どのクイズか判別するために送る --}}
             <form method="POST"
                 action="{{ route('user.levels.quizzes.answer', [
@@ -36,7 +35,7 @@
                 @endforeach
 
                 <button type="submit"
-                    class="flex ml-auto bg-yellow-600 text-white px-5 py-1 rounded transition duration-300 hover:opacity-50">解答する
+                class="flex ml-auto bg-white text-blue-900 px-5 py-1 rounded transition duration-300 hover:opacity-50">解答する
                 </button>
             </form>
         </div>

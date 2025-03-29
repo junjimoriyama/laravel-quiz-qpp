@@ -14,7 +14,7 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', [UserController::class, 'top'])->name('top');
 
 // ユーザー
-Route::prefix('user')->name('user.')->group(function () {
+Route::prefix('user')->name('user.')->middleware('auth')->group(function () {
     // レコード画面表示
     Route::get('records', [UserController::class, 'records'])->name('records');
     // 各レベルのスタート画面
