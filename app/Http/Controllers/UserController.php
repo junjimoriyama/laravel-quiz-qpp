@@ -82,11 +82,14 @@ class UserController extends Controller
                 'level' => $level,
             ]);
         }
+        // 一度クイズに答えたクイズに再度答えようするときのメッセージ
+        $message = session('message');
         // クイズ画面を表示
         return view('user.quizzes', [
             'level' => $level,
             'quiz' => $quiz,
             'currentQuizIndex' => $currentQuizIndex,
+            'message' => $message,
         ]);
     }
 
@@ -115,7 +118,7 @@ class UserController extends Controller
                 if ($result['result'] !== null) {
                     // すでに回答済み → 次のクイズに進む（戻ることはない）
                     return to_route('user.levels.quizzes', ['level' => $level])
-                        ->with('message', 'このクイズにはすでに回答済みです。');
+                        ->with('message', '次の問題です。');
                 } else {
                     // 未回答 → 回答を記録
                     $quizResultsArray[$index]['result'] = $isCorrectAnswer;

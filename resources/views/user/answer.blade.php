@@ -44,4 +44,10 @@
             </button>
         </div>
     </section>
+
+    {{-- <script>
+        // 回答済みクイズのIDとメッセージを保存
+        localStorage.setItem('answeredQuiz', '{{ $quiz->id }}');
+        localStorage.setItem('answeredMessage', 'このクイズにはすでに回答済みです');
+    </script> --}}
 </x-user-layout>

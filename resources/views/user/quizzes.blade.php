@@ -40,4 +40,6 @@
             </form>
         </div>
     </section>
+
+
 </x-user-layout>
