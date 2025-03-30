@@ -14,7 +14,7 @@
                 autofocus autocomplete="username" />
                 <div class="flex gap-8 text-gray-400">
                     <p class="text-xs">ユーザー：user@example.com</p>
-                    <p class="text-xs">管理者：user@example.com</p>
+                    <p class="text-xs">管理者：test@example.com</p>
                 </div>
             <x-input-error :messages="$errors->get('email')" class="mt-2" />
         </div>
