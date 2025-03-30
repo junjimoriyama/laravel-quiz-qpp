@@ -2,9 +2,9 @@
 
 namespace Database\Seeders;
 
-use App\Models\Level;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
+use App\Models\Level;
 
 class LevelSeeder extends Seeder
 {
@@ -13,7 +13,7 @@ class LevelSeeder extends Seeder
      */
     public function run(): void
     {
-        Level::insert([
+      Level::insert([
             ['key' => 'basic', 'label' => '初級'],
             ['key' => 'mid',   'label' => '中級'],
             ['key' => 'pro',   'label' => '上級'],
