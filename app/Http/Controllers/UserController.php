@@ -21,7 +21,6 @@ class UserController extends Controller
         // ログインしていれば
         $levels = Level::all();
         return view('user.top', compact('levels'));
-
     }
 
     // レベル選択後のスタート画面表示（セッション初期化）
