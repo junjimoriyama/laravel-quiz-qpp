@@ -10,7 +10,7 @@
         <!-- Email Address -->
         <div>
             <x-input-label for="email" :value="__('Email')" />
-            <x-text-input id="email" class="block mt-1 mb-2 w-full" type="email" name="email" :value="old('email')" required
+            <x-text-input id="email" class="block mt-1 mb-2 w-full" type="email" name="email" :value="old('email', 'user@example.com')" required
                 autofocus autocomplete="username" />
                 <div class="flex gap-8 text-gray-400">
                     <p class="text-xs">ユーザー：user@example.com</p>
@@ -23,8 +23,8 @@
         <div class="mt-4">
             <x-input-label for="password" :value="__('Password')" />
 
-            <x-text-input id="password" class="block mt-1 mb-2 w-full" type="password" name="password" required
-                autocomplete="current-password" />
+            <x-text-input id="password" class="block mt-1 mb-2 w-full" type="password" name="password" :value="old('password', '111')" required
+                autocomplete="current-password"/>
                 <div class="flex gap-8 text-gray-400">
                     <p class="text-xs">ユーザー：111</p>
                     <p class="text-xs">管理者：123</p>
