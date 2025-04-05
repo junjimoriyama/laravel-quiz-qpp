@@ -1,6 +1,8 @@
 <svg
 class="sm:w-[200px] h-[105px]"
-xmlns="http://www.w3.org/2000/svg" width="150" height="75" version="1.1" viewBox="0 0 100 52.8">
+xmlns="http://www.w3.org/2000/svg" width="150" height="75" version="1.1" viewBox="0 0 100 52.8"
+onclick="location.href='{{ route('top') }}'"
+>
     <g>
         <g id="logo" data-name="logo">
         <g>

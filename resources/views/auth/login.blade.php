@@ -47,7 +47,7 @@
             {{-- <button type="button" onclick="location.href='/'"
                 class="p-2 border border-blue-900 rounded-md bg-white text-blue-900 transition duration-300 cursor-pointer hover:opacity-50">戻る
             </button> --}}
-
+            <p class="text-sm text-red-300 underline">このままログインできます</p>
             <button
                 class="p-2 rounded-md bg-blue-900 text-white transition duration-300 cursor-pointer hover:opacity-50">
                 {{ __('Log in') }}
