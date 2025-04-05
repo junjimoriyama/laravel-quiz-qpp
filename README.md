@@ -1,10 +1,10 @@
 # README
 
-<img src="https://github.com/user-attachments/assets/3fb3e428-db0a-469d-941b-4311e067a5fd" width="400" alt="git_portfolio">
+<!-- <img src="https://github.com/user-attachments/assets/3fb3e428-db0a-469d-941b-4311e067a5fd" width="400" alt="git_portfolio"> -->
 
-### URL: https://junji-moriyama-portfolio.vercel.app/
+### URL: http://quiz-app-laravel-moriyama.xyz/
 
-### 🗂 個人のポートフォリオサイト
+### 🗂 webクイズ
 
 <br>
 
