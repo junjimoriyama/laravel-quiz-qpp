@@ -2,7 +2,7 @@
 
     <section
         class="p-3 flex flex-col items-center justify-center gap-3 text-white min-h-[calc(100vh-var(--header-height))]">
-        <h1 class="text-2xl">{{$currentQuizIndex}}問目のクイズ</h1>
+        <h1 class="text-2xl">{{$currentQuizIndex}} 問目のクイズ</h1>
 
         <h2 class="p-3 text-xl">{{ $quiz['question'] }}</h2>
 
