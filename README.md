@@ -20,4 +20,4 @@ Udemy講座で学習したアプリの仕様変更、拡張しました。
 | **Framework**       | Laravel(12) |
 | **Infrastructure** | AWS Lightsail      |
 | **Editor**         | VSCode              |
-<img alt="my skills" src="https://skillicons.dev/icons?theme=dark&perline=7&i=html,css,scss,ts,react,next,threejs,vercel,illustrator,svg,vscode,github" />
+<img alt="my skills" src="https://skillicons.dev/icons?theme=dark&perline=7&i=html,php,laravel,tailwind,vscode,github" />
